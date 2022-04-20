@@ -36,11 +36,22 @@ class Player(GameSprite):
         if keys[K_s] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
 
+racket1 = Player('pngegg.png', 30, 100, 30, 300, 15)
+racket2 = Player('pngegg.png', 520, 100, 30, 300, 15)
+
 
 while game:
     for e in event.get():
         if e.type == QUIT:
             game = False
+    if finish != True:
+        window.fill(back)
+
+        racket1.update_l()
+        racket2.update_r()
+
+        racket1.reset()
+        racket2.reset()
 
     display.update()
     clock.tick(FPS)
