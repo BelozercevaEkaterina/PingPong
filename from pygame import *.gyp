@@ -43,6 +43,11 @@ ball = GameSprite('ball.png', 280, 200, 40, 40, 4) #мяч
 dx = 3
 dy = 3
 
+font.init()
+font = font.Font(None, 35)
+lose1 = font.render('PLAYER 1 LOSE!', True, (180, 0, 0))
+lose2 = font.render('PLAYER 2 LOSE!', True, (180, 0, 0))
+
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -54,10 +59,18 @@ while game:
 
         ball.rect.x += dx #движение мяча
         ball.rect.y += dy #движение мяча
-        if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball): #столкновение с ракетками
-            dx *= -1     #изменение направления по х
-        if ball.rect.y < 0 or ball.rect.y > win_height-40: #столкновение со стенками
-            dy *= -1     #изменение направления по у
+        if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball): 
+            dx *= -1     
+        if ball.rect.y < 0 or ball.rect.y > win_height-40: 
+            dy *= -1    
+
+        if ball.rect.x < 0: 
+            finish = True
+            window.blit(lose1, (200, 200))
+        
+        if ball.rect.x > win_width:
+            finish = True
+            window.blit(lose2, (200, 200))
 
         racket1.reset()
         racket2.reset()
