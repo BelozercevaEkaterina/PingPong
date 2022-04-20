@@ -36,9 +36,12 @@ class Player(GameSprite):
         if keys[K_s] and self.rect.y < win_height - 80:
             self.rect.y += self.speed
 
-racket1 = Player('pngegg.png', 30, 100, 30, 300, 15)
-racket2 = Player('pngegg.png', 520, 100, 30, 300, 15)
+racket1 = Player('pngegg.png', 20, 100, 30, 300, 15)
+racket2 = Player('pngegg.png', 550, 100, 30, 300, 15)
 
+ball = GameSprite('ball.png', 280, 200, 40, 40, 4) #мяч
+dx = 3
+dy = 3
 
 while game:
     for e in event.get():
@@ -46,12 +49,20 @@ while game:
             game = False
     if finish != True:
         window.fill(back)
-
         racket1.update_l()
         racket2.update_r()
 
+        ball.rect.x += dx #движение мяча
+        ball.rect.y += dy #движение мяча
+        if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball): #столкновение с ракетками
+            dx *= -1     #изменение направления по х
+        if ball.rect.y < 0 or ball.rect.y > win_height-40: #столкновение со стенками
+            dy *= -1     #изменение направления по у
+
         racket1.reset()
         racket2.reset()
+
+        ball.reset() #мяч
 
     display.update()
     clock.tick(FPS)
