@@ -1,5 +1,6 @@
 from pygame import *
 
+
 back = (255, 182, 193) #фон
 win_width = 600
 win_height = 500
@@ -48,6 +49,9 @@ font = font.Font(None, 35)
 lose1 = font.render('PLAYER 1 LOSE!', True, (180, 0, 0))
 lose2 = font.render('PLAYER 2 LOSE!', True, (180, 0, 0))
 
+score_left = 0 
+score_right = 0
+
 while game:
     for e in event.get():
         if e.type == QUIT:
@@ -56,26 +60,44 @@ while game:
         window.fill(back)
         racket1.update_l()
         racket2.update_r()
-
-        ball.rect.x += dx #движение мяча
-        ball.rect.y += dy #движение мяча
+        
+        
+        ball.rect.x += dx 
+        ball.rect.y += dy 
         if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball): 
             dx *= -1     
+
         if ball.rect.y < 0 or ball.rect.y > win_height-40: 
             dy *= -1    
 
         if ball.rect.x < 0: 
-            finish = True
-            window.blit(lose1, (200, 200))
+            score_right += 1
+            ball.rect.x = 280
+            ball.rect.y = 200
         
         if ball.rect.x > win_width:
-            finish = True
-            window.blit(lose2, (200, 200))
+            score_left += 1
+            ball.rect.x = 280
+            ball.rect.y = 200
 
         racket1.reset()
         racket2.reset()
 
         ball.reset() #мяч
+
+        score_l = font.render(str(score_left), True, (0,0,0))
+        score_r = font.render(str(score_right), True, (0,0,0))
+        window.blit(score_l, (10,10))
+        window.blit(score_r, (win_width-25,10))
+
+        if score_right >= 5:
+            finish = True
+            window.blit(lose1, (200, 200))
+
+        if score_left >= 5:
+            finish = True
+            window.blit(lose2, (200, 200))
+
 
     display.update()
     clock.tick(FPS)
