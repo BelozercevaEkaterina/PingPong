@@ -38,9 +38,10 @@ class Player(GameSprite):
         if keys[pygame.K_s] and self.rect.y < win_height - 210:
             self.rect.y += self.speed
 
-racket1 = Player('pngegg.png', 20, 100, 30, 300, 15)
-racket2 = Player('pngegg.png', 550, 100, 30, 300, 15)
-ball = GameSprite('ball.png', 280, 200, 40, 40, 4) #мяч
+racket1 = Player('pngegg.png', 10, 100, 30, 300, 15)
+racket2 = Player('pngegg.png', win_width-40, 100, 30, 300, 15)
+ball = GameSprite('ball.png', 280, 200, 40, 40, 4) 
+
 dx = 3
 dy = 3
 
@@ -56,6 +57,7 @@ while game:
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             game = False
+
     if finish != True:
         window.fill(back)
         racket1.update_l()
@@ -74,16 +76,20 @@ while game:
             score_right += 1
             ball.rect.x = 280
             ball.rect.y = 200
+            time.sleep(0.1)
+            
+
         
         if ball.rect.x > win_width:
             score_left += 1
             ball.rect.x = 280
             ball.rect.y = 200
+            time.sleep(0.1)
 
         racket1.reset()
         racket2.reset()
 
-        ball.reset() #мяч
+        ball.reset() 
 
         score_l = font.render(str(score_left), True, (0,0,0))
         score_r = font.render(str(score_right), True, (0,0,0))
