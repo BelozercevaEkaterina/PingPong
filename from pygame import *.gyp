@@ -54,6 +54,8 @@ score_left = 0
 score_right = 0
 
 while game:
+    time_start = time.time()
+
     for e in pygame.event.get():
         if e.type == pygame.QUIT:
             game = False
@@ -66,8 +68,13 @@ while game:
         
         ball.rect.x += dx 
         ball.rect.y += dy 
-        if pygame.sprite.collide_rect(racket1, ball) or pygame.sprite.collide_rect(racket2, ball): 
-            dx *= -1     
+
+        time_end = time.time()
+        res = time_end-time_start
+        if pygame.sprite.collide_rect(racket1, ball)  or pygame.sprite.collide_rect(racket2, ball): 
+            dx *= -1  
+
+
 
         if ball.rect.y < 0 or ball.rect.y > win_height-40: 
             dy *= -1    
@@ -77,7 +84,8 @@ while game:
             ball.rect.x = 280
             ball.rect.y = 200
             time.sleep(0.1)
-            
+            if dx > 0:
+                dx *= -1           
 
         
         if ball.rect.x > win_width:
@@ -85,6 +93,8 @@ while game:
             ball.rect.x = 280
             ball.rect.y = 200
             time.sleep(0.1)
+            if dx < 0:
+                dx *= -1  
 
         racket1.reset()
         racket2.reset()
